@@ -25,6 +25,10 @@ public partial class UserTable
 
     public virtual ICollection<LoginTable> LoginTables { get; set; } = new List<LoginTable>();
 
+    public virtual ICollection<PatientDoctor> PatientDoctorIdDoctorNavigations { get; set; } = new List<PatientDoctor>();
+
+    public virtual ICollection<PatientDoctor> PatientDoctorIdPatientNavigations { get; set; } = new List<PatientDoctor>();
+
     public virtual ICollection<VisitsTable> VisitsTableIdDoctorNavigations { get; set; } = new List<VisitsTable>();
 
     public virtual ICollection<VisitsTable> VisitsTableIdUserNavigations { get; set; } = new List<VisitsTable>();

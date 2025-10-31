@@ -21,9 +21,15 @@ public partial class SheronovContext : DbContext
 
     public virtual DbSet<LoginTable> LoginTables { get; set; }
 
+    public virtual DbSet<PatientDoctor> PatientDoctors { get; set; }
+
+    public virtual DbSet<Prescription> Prescriptions { get; set; }
+
     public virtual DbSet<RoleTable> RoleTables { get; set; }
 
     public virtual DbSet<TraitTable> TraitTables { get; set; }
+
+    public virtual DbSet<TreatmentCourse> TreatmentCourses { get; set; }
 
     public virtual DbSet<UserTable> UserTables { get; set; }
 
@@ -91,6 +97,61 @@ public partial class SheronovContext : DbContext
                 .HasConstraintName("login_table_id_user_fkey");
         });
 
+        modelBuilder.Entity<PatientDoctor>(entity =>
+        {
+            entity.HasKey(e => e.IdPatientDoctor).HasName("patient_doctors_pkey");
+
+            entity.ToTable("patient_doctors", "HospitalBase");
+
+            entity.HasIndex(e => new { e.IdPatient, e.IdDoctor }, "patient_doctors_id_patient_id_doctor_key").IsUnique();
+
+            entity.Property(e => e.IdPatientDoctor).HasColumnName("id_patient_doctor");
+            entity.Property(e => e.AssignmentDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("assignment_date");
+            entity.Property(e => e.IdDoctor).HasColumnName("id_doctor");
+            entity.Property(e => e.IdPatient).HasColumnName("id_patient");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+
+            entity.HasOne(d => d.IdDoctorNavigation).WithMany(p => p.PatientDoctorIdDoctorNavigations)
+                .HasForeignKey(d => d.IdDoctor)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("patient_doctors_id_doctor_fkey");
+
+            entity.HasOne(d => d.IdPatientNavigation).WithMany(p => p.PatientDoctorIdPatientNavigations)
+                .HasForeignKey(d => d.IdPatient)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("patient_doctors_id_patient_fkey");
+        });
+
+        modelBuilder.Entity<Prescription>(entity =>
+        {
+            entity.HasKey(e => e.IdPrescription).HasName("prescriptions_pkey");
+
+            entity.ToTable("prescriptions", "HospitalBase");
+
+            entity.Property(e => e.IdPrescription).HasColumnName("id_prescription");
+            entity.Property(e => e.Dosage)
+                .HasMaxLength(100)
+                .HasColumnName("dosage");
+            entity.Property(e => e.DurationDays).HasColumnName("duration_days");
+            entity.Property(e => e.Frequency)
+                .HasMaxLength(100)
+                .HasColumnName("frequency");
+            entity.Property(e => e.IdTreatment).HasColumnName("id_treatment");
+            entity.Property(e => e.MedicationName)
+                .HasMaxLength(255)
+                .HasColumnName("medication_name");
+
+            entity.HasOne(d => d.IdTreatmentNavigation).WithMany(p => p.Prescriptions)
+                .HasForeignKey(d => d.IdTreatment)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("prescriptions_id_treatment_fkey");
+        });
+
         modelBuilder.Entity<RoleTable>(entity =>
         {
             entity.HasKey(e => e.IdRole).HasName("role_table_pkey");
@@ -113,6 +174,28 @@ public partial class SheronovContext : DbContext
             entity.Property(e => e.Trait)
                 .HasMaxLength(100)
                 .HasColumnName("trait");
+        });
+
+        modelBuilder.Entity<TreatmentCourse>(entity =>
+        {
+            entity.HasKey(e => e.IdTreatment).HasName("treatment_courses_pkey");
+
+            entity.ToTable("treatment_courses", "HospitalBase");
+
+            entity.Property(e => e.IdTreatment).HasColumnName("id_treatment");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.IdVisit).HasColumnName("id_visit");
+            entity.Property(e => e.StartDate).HasColumnName("start_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'active'::character varying")
+                .HasColumnName("status");
+            entity.Property(e => e.TreatmentDescription).HasColumnName("treatment_description");
+
+            entity.HasOne(d => d.IdVisitNavigation).WithMany(p => p.TreatmentCourses)
+                .HasForeignKey(d => d.IdVisit)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("treatment_courses_id_visit_fkey");
         });
 
         modelBuilder.Entity<UserTable>(entity =>
@@ -172,8 +255,10 @@ public partial class SheronovContext : DbContext
             entity.Property(e => e.IdVisit).HasColumnName("id_visit");
             entity.Property(e => e.IdDiagnosis).HasColumnName("id_diagnosis");
             entity.Property(e => e.IdDoctor).HasColumnName("id_doctor");
+            entity.Property(e => e.IdPatientDoctor).HasColumnName("id_patient_doctor");
             entity.Property(e => e.IdUser).HasColumnName("id_user");
             entity.Property(e => e.Notes).HasColumnName("notes");
+            entity.Property(e => e.TreatmentPlan).HasColumnName("treatment_plan");
             entity.Property(e => e.VisitDate)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
@@ -188,6 +273,11 @@ public partial class SheronovContext : DbContext
                 .HasForeignKey(d => d.IdDoctor)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("visits_table_id_doctor_fkey");
+
+            entity.HasOne(d => d.IdPatientDoctorNavigation).WithMany(p => p.VisitsTables)
+                .HasForeignKey(d => d.IdPatientDoctor)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("visits_table_id_patient_doctor_fkey");
 
             entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.VisitsTableIdUserNavigations)
                 .HasForeignKey(d => d.IdUser)

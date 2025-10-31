@@ -14,11 +14,27 @@ namespace Hospital.ViewModels
         [ObservableProperty]
         private LoginTable logined;
 
+        public int? Age
+        {
+            get
+            {
+                if (logined?.IdUserNavigation?.BirthDate != null)
+                {
+                    var birthDate = logined.IdUserNavigation.BirthDate.Value;
+                    var today = DateOnly.FromDateTime(DateTime.Today);
+                    var age = today.Year - birthDate.Year;
+                    if (birthDate > today.AddYears(-age)) age--;
+                    return age;
+                }
+                return null;
+            }
+        }
 
         public UserViewModel(LoginTable currentUser)
         {
             logined = currentUser;
             
         }
+
     }
 }
