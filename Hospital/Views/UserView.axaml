@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Hospital.Views.UserView"
+             xmlns:vm="using:Hospital.ViewModels"
+             x:DataType="vm:UserViewModel">
+
+ <StackPanel>
+        <!-- Заголовок -->
+        <TextBlock Text="Account" 
+                  FontSize="20" 
+                  FontWeight="Bold" 
+                  HorizontalAlignment="Center"/>
+        
+        <!-- Основная информация -->
+        <Border Background="#F0F8FF" Padding="15" CornerRadius="5">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Main Information" FontWeight="Bold" FontSize="16"/>
+                
+                <!-- Отображаем логин пользователя -->
+                <TextBlock Text="{Binding Logined.Login, StringFormat='Login: {0}'}" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding Logined.IdUserNavigation.Name, StringFormat='Name: {0}'}" FontWeight="SemiBold"/>
+                
+               </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>
