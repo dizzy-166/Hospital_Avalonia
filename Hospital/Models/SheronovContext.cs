@@ -15,11 +15,17 @@ public partial class SheronovContext : DbContext
     {
     }
 
+    public virtual DbSet<Appointment> Appointments { get; set; }
+
     public virtual DbSet<DiagnosisTable> DiagnosisTables { get; set; }
+
+    public virtual DbSet<DoctorSpecialization> DoctorSpecializations { get; set; }
 
     public virtual DbSet<GenderTable> GenderTables { get; set; }
 
     public virtual DbSet<LoginTable> LoginTables { get; set; }
+
+    public virtual DbSet<PatientAllergy> PatientAllergies { get; set; }
 
     public virtual DbSet<PatientDoctor> PatientDoctors { get; set; }
 
@@ -43,6 +49,38 @@ public partial class SheronovContext : DbContext
     {
         modelBuilder.UseCollation("C");
 
+        modelBuilder.Entity<Appointment>(entity =>
+        {
+            entity.HasKey(e => e.IdAppointment).HasName("appointments_pkey");
+
+            entity.ToTable("appointments", "HospitalBase");
+
+            entity.Property(e => e.IdAppointment).HasColumnName("id_appointment");
+            entity.Property(e => e.AppointmentDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("appointment_date");
+            entity.Property(e => e.Department)
+                .HasMaxLength(100)
+                .HasColumnName("department");
+            entity.Property(e => e.IdDoctor).HasColumnName("id_doctor");
+            entity.Property(e => e.IdPatient).HasColumnName("id_patient");
+            entity.Property(e => e.Notes).HasColumnName("notes");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'scheduled'::character varying")
+                .HasColumnName("status");
+
+            entity.HasOne(d => d.IdDoctorNavigation).WithMany(p => p.AppointmentIdDoctorNavigations)
+                .HasForeignKey(d => d.IdDoctor)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("appointments_id_doctor_fkey");
+
+            entity.HasOne(d => d.IdPatientNavigation).WithMany(p => p.AppointmentIdPatientNavigations)
+                .HasForeignKey(d => d.IdPatient)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("appointments_id_patient_fkey");
+        });
+
         modelBuilder.Entity<DiagnosisTable>(entity =>
         {
             entity.HasKey(e => e.IdDiagnosis).HasName("diagnosis_table_pkey");
@@ -54,6 +92,24 @@ public partial class SheronovContext : DbContext
             entity.Property(e => e.DiagnosisName)
                 .HasMaxLength(255)
                 .HasColumnName("diagnosis_name");
+        });
+
+        modelBuilder.Entity<DoctorSpecialization>(entity =>
+        {
+            entity.HasKey(e => e.IdSpecialization).HasName("doctor_specializations_pkey");
+
+            entity.ToTable("doctor_specializations", "HospitalBase");
+
+            entity.Property(e => e.IdSpecialization).HasColumnName("id_specialization");
+            entity.Property(e => e.IdDoctor).HasColumnName("id_doctor");
+            entity.Property(e => e.Specialization)
+                .HasMaxLength(100)
+                .HasColumnName("specialization");
+
+            entity.HasOne(d => d.IdDoctorNavigation).WithMany(p => p.DoctorSpecializations)
+                .HasForeignKey(d => d.IdDoctor)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("doctor_specializations_id_doctor_fkey");
         });
 
         modelBuilder.Entity<GenderTable>(entity =>
@@ -95,6 +151,28 @@ public partial class SheronovContext : DbContext
                 .HasForeignKey(d => d.IdUser)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("login_table_id_user_fkey");
+        });
+
+        modelBuilder.Entity<PatientAllergy>(entity =>
+        {
+            entity.HasKey(e => e.IdAllergy).HasName("patient_allergies_pkey");
+
+            entity.ToTable("patient_allergies", "HospitalBase");
+
+            entity.Property(e => e.IdAllergy).HasColumnName("id_allergy");
+            entity.Property(e => e.AllergyName)
+                .HasMaxLength(200)
+                .HasColumnName("allergy_name");
+            entity.Property(e => e.IdPatient).HasColumnName("id_patient");
+            entity.Property(e => e.Notes).HasColumnName("notes");
+            entity.Property(e => e.Severity)
+                .HasMaxLength(50)
+                .HasColumnName("severity");
+
+            entity.HasOne(d => d.IdPatientNavigation).WithMany(p => p.PatientAllergies)
+                .HasForeignKey(d => d.IdPatient)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("patient_allergies_id_patient_fkey");
         });
 
         modelBuilder.Entity<PatientDoctor>(entity =>
@@ -206,6 +284,12 @@ public partial class SheronovContext : DbContext
 
             entity.Property(e => e.IdUser).HasColumnName("id_user");
             entity.Property(e => e.BirthDate).HasColumnName("birth_date");
+            entity.Property(e => e.BloodType)
+                .HasMaxLength(5)
+                .HasColumnName("blood_type");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .HasColumnName("email");
             entity.Property(e => e.FamilyName)
                 .HasMaxLength(100)
                 .HasColumnName("family_name");
@@ -219,6 +303,9 @@ public partial class SheronovContext : DbContext
             entity.Property(e => e.Patronymic)
                 .HasMaxLength(100)
                 .HasColumnName("patronymic");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .HasColumnName("phone");
             entity.Property(e => e.Weight)
                 .HasPrecision(5, 2)
                 .HasColumnName("weight");

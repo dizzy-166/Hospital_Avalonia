@@ -7,140 +7,171 @@
              xmlns:vm="using:Hospital.ViewModels"
              x:DataType="vm:UserViewModel">
 
-    <StackPanel Spacing="20" Margin="20">
-        <!-- Header -->
-        <TextBlock Text="Personal Account" 
-                  FontSize="24" 
-                  FontWeight="Bold" 
-                  HorizontalAlignment="Center"
-                  Foreground="#2C3E50"/>
-        
-        <!-- Basic Information -->
-        <Border Background="#F8F9FA" Padding="20" CornerRadius="10" BorderBrush="#E9ECEF" BorderThickness="1">
-            <StackPanel Spacing="12">
-                <TextBlock Text="Basic Information" 
-                          FontWeight="Bold" 
-                          FontSize="18"
-                          Foreground="#2C3E50"
-                          Margin="0,0,0,10"/>
-                
-                <Grid ColumnDefinitions="150,*" RowDefinitions="auto,auto,auto,auto,auto,auto,auto" RowSpacing="8">
-                    <!-- Login -->
-                    <TextBlock Text="Login:" 
-                              Grid.Row="0" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.Login}" 
-                              Grid.Row="0" Grid.Column="1"
-                              Foreground="#212529"/>
-                    
-                    <!-- Name -->
-                    <TextBlock Text="Last Name:" 
-                              Grid.Row="1" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.IdUserNavigation.FamilyName}" 
-                              Grid.Row="1" Grid.Column="1"
-                              Foreground="#212529"/>
-                    
-                    <TextBlock Text="First Name:" 
-                              Grid.Row="2" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.IdUserNavigation.Name}" 
-                              Grid.Row="2" Grid.Column="1"
-                              Foreground="#212529"/>
-                    
-                    <TextBlock Text="Middle Name:" 
-                              Grid.Row="3" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.IdUserNavigation.Patronymic}" 
-                              Grid.Row="3" Grid.Column="1"
-                              Foreground="#212529"/>
-                    
-                    <!-- Birth Date -->
-                    <TextBlock Text="Birth Date:" 
-                              Grid.Row="4" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.IdUserNavigation.BirthDate, StringFormat='{}{0:dd.MM.yyyy}'}" 
-                              Grid.Row="4" Grid.Column="1"
-                              Foreground="#212529"/>
-                    
-                    <!-- Physical Parameters -->
-                    <TextBlock Text="Height:" 
-                              Grid.Row="5" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.IdUserNavigation.Height, StringFormat='{}{0} cm'}" 
-                              Grid.Row="5" Grid.Column="1"
-                              Foreground="#212529"/>
-                    
-                    <TextBlock Text="Weight:" 
-                              Grid.Row="6" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.IdUserNavigation.Weight, StringFormat='{}{0} kg'}" 
-                              Grid.Row="6" Grid.Column="1"
-                              Foreground="#212529"/>
-                </Grid>
-            </StackPanel>
-        </Border>
-
-        <!-- Medical Information -->
-        <Border Background="#F0F8FF" Padding="20" CornerRadius="10" BorderBrush="#BBDEFB" BorderThickness="1">
-            <StackPanel Spacing="12">
-                <TextBlock Text="Medical Information" 
-                          FontWeight="Bold" 
-                          FontSize="18"
-                          Foreground="#1565C0"
-                          Margin="0,0,0,10"/>
-                
-                <Grid ColumnDefinitions="150,*" RowDefinitions="auto,auto" RowSpacing="8">
-                    <!-- Gender -->
-                    <TextBlock Text="Gender:" 
-                              Grid.Row="0" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Logined.IdUserNavigation.IdGenderNavigation.Gender}" 
-                              Grid.Row="0" Grid.Column="1"
-                              Foreground="#212529"/>
-                    
-                    <!-- Age (calculated field) -->
-                    <TextBlock Text="Age:" 
-                              Grid.Row="1" Grid.Column="0"
-                              FontWeight="SemiBold"
-                              Foreground="#495057"/>
-                    <TextBlock Text="{Binding Age, StringFormat='{}{0} years'}" 
-                              Grid.Row="1" Grid.Column="1"
-                              Foreground="#212529"/>
-                </Grid>
-            </StackPanel>
-        </Border>
-
-        <!-- Action Buttons -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
-            <Button Content="Edit Profile" 
-                    Padding="15,8"
-                    Background="#007BFF"
-                    Foreground="White"
-                    BorderBrush="#007BFF"
-                    CornerRadius="5"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20" Margin="20">
+            <!-- Header -->
+            <TextBlock Text="{Binding Logined.IdUserNavigation.Name, StringFormat='Welcome, {0}'}" 
+                      FontSize="24" 
+                      FontWeight="Bold" 
+                      HorizontalAlignment="Center"
+                      Foreground="#2C3E50"/>
             
-            <Button Content="My Appointments" 
-                    Padding="15,8"
-                    Background="#28A745"
-                    Foreground="White"
-                    BorderBrush="#28A745"
-                    CornerRadius="5"/>
-            
-            <Button Content="Logout" 
-                    Padding="15,8"
-                    Background="#DC3545"
-                    Foreground="White"
-                    BorderBrush="#DC3545"
-                    CornerRadius="5"/>
+            <!-- Basic Information -->
+            <Border Background="#F8F9FA" Padding="20" CornerRadius="10" BorderBrush="#E9ECEF" BorderThickness="1">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Basic Information" 
+                              FontWeight="Bold" 
+                              FontSize="18"
+                              Foreground="#2C3E50"
+                              Margin="0,0,0,10"/>
+                    
+                    <Grid ColumnDefinitions="150,*" RowDefinitions="auto,auto,auto,auto,auto,auto,auto" RowSpacing="8">
+                        <!-- Login -->
+                        <TextBlock Text="Login:" 
+                                  Grid.Row="0" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.Login}" 
+                                  Grid.Row="0" Grid.Column="1"
+                                  Foreground="#212529"/>
+                        
+                        <!-- Name -->
+                        <TextBlock Text="Last Name:" 
+                                  Grid.Row="1" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.IdUserNavigation.FamilyName}" 
+                                  Grid.Row="1" Grid.Column="1"
+                                  Foreground="#212529"/>
+                        
+                        <TextBlock Text="First Name:" 
+                                  Grid.Row="2" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.IdUserNavigation.Name}" 
+                                  Grid.Row="2" Grid.Column="1"
+                                  Foreground="#212529"/>
+                        
+                        <TextBlock Text="Middle Name:" 
+                                  Grid.Row="3" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.IdUserNavigation.Patronymic}" 
+                                  Grid.Row="3" Grid.Column="1"
+                                  Foreground="#212529"/>
+                        
+                        <!-- Birth Date -->
+                        <TextBlock Text="Birth Date:" 
+                                  Grid.Row="4" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.IdUserNavigation.BirthDate, StringFormat='{}{0:dd.MM.yyyy}'}" 
+                                  Grid.Row="4" Grid.Column="1"
+                                  Foreground="#212529"/>
+                        
+                        <!-- Physical Parameters -->
+                        <TextBlock Text="Height:" 
+                                  Grid.Row="5" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.IdUserNavigation.Height, StringFormat='{}{0} cm'}" 
+                                  Grid.Row="5" Grid.Column="1"
+                                  Foreground="#212529"/>
+                        
+                        <TextBlock Text="Weight:" 
+                                  Grid.Row="6" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.IdUserNavigation.Weight, StringFormat='{}{0} kg'}" 
+                                  Grid.Row="6" Grid.Column="1"
+                                  Foreground="#212529"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Medical Information -->
+            <Border Background="#F0F8FF" Padding="20" CornerRadius="10" BorderBrush="#BBDEFB" BorderThickness="1">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Medical Information" 
+                              FontWeight="Bold" 
+                              FontSize="18"
+                              Foreground="#1565C0"
+                              Margin="0,0,0,10"/>
+                    
+                    <Grid ColumnDefinitions="150,*" RowDefinitions="auto,auto" RowSpacing="8">
+                        <!-- Gender -->
+                        <TextBlock Text="Gender:" 
+                                  Grid.Row="0" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Logined.IdUserNavigation.IdGenderNavigation.Gender}" 
+                                  Grid.Row="0" Grid.Column="1"
+                                  Foreground="#212529"/>
+                        
+                        <!-- Age (calculated field) -->
+                        <TextBlock Text="Age:" 
+                                  Grid.Row="1" Grid.Column="0"
+                                  FontWeight="SemiBold"
+                                  Foreground="#495057"/>
+                        <TextBlock Text="{Binding Age, StringFormat='{}{0} years'}" 
+                                  Grid.Row="1" Grid.Column="1"
+                                  Foreground="#212529"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+
+            <!-- Allergies -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="Allergies" FontWeight="Bold"/>
+                
+                <ItemsControl ItemsSource="{Binding Allergies}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#FFF0F0" Padding="10" Margin="0,5" CornerRadius="5">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding AllergyName}" FontWeight="SemiBold" Foreground="#C62828"/>
+                                    <TextBlock Text="{Binding Severity, StringFormat='Severity: {0}'}" FontSize="12"/>
+                                    <TextBlock Text="{Binding Notes}" FontSize="11" FontStyle="Italic" Foreground="#666"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+
+            </StackPanel>
+
+            <!-- Medical History (Diagnoses) -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="Medical History" FontWeight="Bold"/>
+                
+                <ItemsControl ItemsSource="{Binding MedicalHistory}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#F0F8FF" Padding="10" Margin="0,5" CornerRadius="5">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding IdDiagnosisNavigation.DiagnosisName}" FontWeight="SemiBold" Foreground="#1565C0"/>
+                                    <TextBlock Text="{Binding VisitDate, StringFormat='Date: {0:dd.MM.yyyy}'}" FontSize="12"/>
+                                    <TextBlock Text="{Binding Notes}" FontSize="11" FontStyle="Italic" Foreground="#666"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+
+            </StackPanel>
+
+            <!-- Action Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+                <Button Content="Logout" 
+                        Padding="15,8"
+                        Background="#DC3545"
+                        Foreground="White"
+                        BorderBrush="#DC3545"
+                        CornerRadius="5"/>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </ScrollViewer>
 </UserControl>

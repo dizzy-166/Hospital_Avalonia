@@ -21,9 +21,23 @@ public partial class UserTable
 
     public int? IdGender { get; set; }
 
+    public string? Phone { get; set; }
+
+    public string? Email { get; set; }
+
+    public string? BloodType { get; set; }
+
+    public virtual ICollection<Appointment> AppointmentIdDoctorNavigations { get; set; } = new List<Appointment>();
+
+    public virtual ICollection<Appointment> AppointmentIdPatientNavigations { get; set; } = new List<Appointment>();
+
+    public virtual ICollection<DoctorSpecialization> DoctorSpecializations { get; set; } = new List<DoctorSpecialization>();
+
     public virtual GenderTable? IdGenderNavigation { get; set; }
 
     public virtual ICollection<LoginTable> LoginTables { get; set; } = new List<LoginTable>();
+
+    public virtual ICollection<PatientAllergy> PatientAllergies { get; set; } = new List<PatientAllergy>();
 
     public virtual ICollection<PatientDoctor> PatientDoctorIdDoctorNavigations { get; set; } = new List<PatientDoctor>();
 
