@@ -169,6 +169,17 @@ dotnet run
 
 <hr>
 
+<h2>Структура папки Assets</h2>
+
+<pre>
+Hospital
+├── Assets
+│   ├── avalonia-auth.png
+│   └── avalonia-interface.png
+</pre>
+
+<hr>
+
 <h2>Назначение проекта</h2>
 
 <p>
