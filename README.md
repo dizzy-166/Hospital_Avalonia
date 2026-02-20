@@ -159,14 +159,13 @@ dotnet run
 
 <h3>Экран авторизации</h3>
 <p align="center">
-  <img src="Assets/avalonia-auth.png" alt="Authorization Screen" width="800">
+  <img src="Hospital/Assets/avalonia-auth.png" alt="Authorization Screen" width="800">
 </p>
 
 <h3>Интерфейс пациента</h3>
 <p align="center">
-  <img src="Assets/avalonia-interface.png" alt="User Interface Screen" width="800">
+  <img src="Hospital/Assets/avalonia-interface.png" alt="User Interface Screen" width="800">
 </p>
-
 <hr>
 
 <h2>Структура папки Assets</h2>
